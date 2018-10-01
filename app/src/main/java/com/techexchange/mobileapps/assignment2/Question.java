@@ -1,13 +1,14 @@
 package com.techexchange.mobileapps.assignment2;
 
 public class Question {
-    private final String cityName, corAns;
+    private final String cityName, chosenAns, corAns;
     private final String[] wrongAnswers;
 
     public Question(String cityName, String corAns, String[] wrongAnswers) {
         this.cityName = cityName;
         this.corAns = corAns;
         this.wrongAnswers = wrongAnswers;
+        this.chosenAns = null;
     }
 
     public String getCityName() {
@@ -20,6 +21,12 @@ public class Question {
 
     public String[] getWrongAnswers() {
         return wrongAnswers;
+    }
+
+    public String getChosenAns() {
+        if (chosenAns == null) return "None";
+
+        return chosenAns;
     }
 
     public String getQuestion() {
