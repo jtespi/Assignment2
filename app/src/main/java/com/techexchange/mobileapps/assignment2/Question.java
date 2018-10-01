@@ -2,13 +2,17 @@ package com.techexchange.mobileapps.assignment2;
 
 public class Question {
     private final String cityName, chosenAns, corAns;
-    private final String[] wrongAnswers;
+    private String[] wrongAnswers;
 
-    public Question(String cityName, String corAns, String[] wrongAnswers) {
+    public Question(String cityName, String corAns) {
         this.cityName = cityName;
         this.corAns = corAns;
-        this.wrongAnswers = wrongAnswers;
+        this.wrongAnswers = null;
         this.chosenAns = null;
+    }
+
+    public void setWrongAnswers( String[] wrongAns ) {
+        this.wrongAnswers = wrongAns;
     }
 
     public String getCityName() {
