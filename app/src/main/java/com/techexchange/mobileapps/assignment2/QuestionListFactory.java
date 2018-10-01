@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.util.ArrayList;
 import java.util.List;
 
 public class QuestionListFactory {
@@ -18,6 +19,8 @@ public class QuestionListFactory {
                         "raw", context.getPackageName()));
 
         BufferedReader br = new BufferedReader( new InputStreamReader(ins) );
+
+        questionList = new ArrayList<Question>();
 
         String line;
         try {
@@ -42,9 +45,9 @@ public class QuestionListFactory {
             String[] otherCountries = new String[3];
 
             for ( int count = 1; count <=3; count++ ) {
-                int randomIndex = (int) (Math.random() * max +1);
+                int randomIndex = (int) (Math.random() * max );
                 // if randomIndex happens to be the same index, then try again
-                if (randomIndex == index ) randomIndex = (int)(Math.random() * max + 1 );
+                if (randomIndex == index ) randomIndex = (int)(Math.random() * max );
 
                 otherCountries[count-1] = questionList.get(randomIndex).getCorAns();
             }
