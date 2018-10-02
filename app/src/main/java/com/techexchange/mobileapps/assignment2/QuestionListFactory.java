@@ -11,7 +11,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class QuestionListFactory {
-    static List<Question> questionList;
+    private static QuestionListFactory sQuestionListFactory;
+    private static List<Question> questionList;
+
+    public static QuestionListFactory get(Context context) {
+        if (sQuestionListFactory == null) {
+            sQuestionListFactory = new QuestionListFactory( context );
+        }
+        return sQuestionListFactory;
+    }
+
+    private QuestionListFactory( Context context ) {
+        //questionList = new ArrayList<>();
+        questionList = questionList;
+    }
+
+    public List<Question> getQuestionList(){
+        return questionList;
+    }
 
     public static boolean generateQuestionList(Context context) {
         InputStream ins = context.getResources().openRawResource(
