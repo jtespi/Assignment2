@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
@@ -44,7 +45,7 @@ public class QuestionListFrag extends Fragment {
         // Required empty public constructor
     }
 
-    private class QuestionHolder extends RecyclerView.ViewHolder {
+    private class QuestionHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private Question mQuestion;
 
@@ -53,6 +54,7 @@ public class QuestionListFrag extends Fragment {
 
         public QuestionHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.list_item_quesion, parent, false));
+            itemView.setOnClickListener(this);
 
             mQuestionNumberTxt = (TextView) itemView.findViewById(R.id.question_num);
             mQuestionTxt = (TextView) itemView.findViewById(R.id.question_txt);
@@ -62,6 +64,13 @@ public class QuestionListFrag extends Fragment {
             mQuestion = q;
             mQuestionNumberTxt.setText("Question #" + q.getqNumber());
             mQuestionTxt.setText(q.getQuestion());
+        }
+
+        @Override
+        public void onClick(View view) {
+            Toast.makeText(getActivity(),
+                    "Question #" + mQuestion.getqNumber() + " clicked!", Toast.LENGTH_SHORT)
+                    .show();
         }
     }
 
@@ -80,7 +89,6 @@ public class QuestionListFrag extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull QuestionHolder questionHolder, int position) {
-            if (position == 0) { position = 1; }
             Question q = mQuestions.get(position);
             questionHolder.bind(q);
         }

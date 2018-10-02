@@ -48,7 +48,9 @@ public class QuestionListFactory {
                 String country = values[0].substring(1, values[0].length()-1);
                 String capital = values[1].substring(1, values[1].length()-1);
 
-                questionList.add( new Question(capital, country, index));
+                if ( index != 0 )
+                    questionList.add( new Question(capital, country, index));
+
                 index++;
             }
         } catch (IOException e ) {
