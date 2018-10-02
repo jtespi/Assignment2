@@ -38,6 +38,7 @@ public class QuestionListFactory {
         BufferedReader br = new BufferedReader( new InputStreamReader(ins) );
 
         questionList = new ArrayList<Question>();
+        int index = 0;
 
         String line;
         try {
@@ -47,7 +48,8 @@ public class QuestionListFactory {
                 String country = values[0].substring(1, values[0].length()-1);
                 String capital = values[1].substring(1, values[1].length()-1);
 
-                questionList.add( new Question(capital, country));
+                questionList.add( new Question(capital, country, index));
+                index++;
             }
         } catch (IOException e ) {
             return false;

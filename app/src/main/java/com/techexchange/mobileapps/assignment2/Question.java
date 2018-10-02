@@ -3,15 +3,29 @@ package com.techexchange.mobileapps.assignment2;
 public class Question {
     private final String cityName, chosenAns, corAns;
     private String[] wrongAnswers;
+    private int qNumber;
 
     public Question(String cityName, String corAns) {
         this.cityName = cityName;
         this.corAns = corAns;
+        this.qNumber = 0;
         this.wrongAnswers = null;
         this.chosenAns = null;
     }
 
-    public void setWrongAnswers( String[] wrongAns ) {
+    public Question(String cityName, String corAns, int qNum) {
+        this.cityName = cityName;
+        this.corAns = corAns;
+        this.qNumber = qNum;
+        this.wrongAnswers = null;
+        this.chosenAns = null;
+    }
+
+    public int getqNumber() {
+        return qNumber;
+    }
+
+    public void setWrongAnswers(String[] wrongAns ) {
         this.wrongAnswers = wrongAns;
     }
 

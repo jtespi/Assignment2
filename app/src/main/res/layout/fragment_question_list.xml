@@ -12,28 +12,41 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/btn_submit"
+        app:layout_constraintBottom_toTopOf="@+id/button_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/btn_submit"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/button_layout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Submit"
+        android:orientation="horizontal"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btn_email"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/recyclerView">
 
-    <Button
-        android:id="@+id/btn_email"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Send Email"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btn_submit" />
+        <Button
+            android:id="@+id/btn_submit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Submit"
+             />
+
+        <Button
+            android:id="@+id/btn_email"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Send Email"
+            />
+
+
+    </LinearLayout>
+
+
 </android.support.constraint.ConstraintLayout>

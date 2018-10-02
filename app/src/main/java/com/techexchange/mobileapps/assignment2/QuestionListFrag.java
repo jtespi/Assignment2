@@ -3,10 +3,18 @@ package com.techexchange.mobileapps.assignment2;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
+
+import java.util.List;
 
 
 /**
@@ -23,6 +31,9 @@ public class QuestionListFrag extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+    private RecyclerView rView;
+    private QuestionAdapter qAdapter;
+
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -31,6 +42,53 @@ public class QuestionListFrag extends Fragment {
 
     public QuestionListFrag() {
         // Required empty public constructor
+    }
+
+    private class QuestionHolder extends RecyclerView.ViewHolder {
+
+        private Question mQuestion;
+
+        private TextView mQuestionNumberTxt;
+        private TextView mQuestionTxt;
+
+        public QuestionHolder(LayoutInflater inflater, ViewGroup parent) {
+            super(inflater.inflate(R.layout.list_item_quesion, parent, false));
+
+            mQuestionNumberTxt = (TextView) itemView.findViewById(R.id.question_num);
+            mQuestionTxt = (TextView) itemView.findViewById(R.id.question_txt);
+        }
+
+        public void bind( Question q ) {
+            mQuestion = q;
+            mQuestionNumberTxt.setText("Question #" + q.getqNumber());
+            mQuestionTxt.setText(q.getQuestion());
+        }
+    }
+
+    private class QuestionAdapter extends RecyclerView.Adapter<QuestionHolder> {
+    private List<Question> mQuestions;
+        public QuestionAdapter(List<Question> questionList) {
+            mQuestions = questionList;
+        }
+
+        @NonNull
+        @Override
+        public QuestionHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
+            return new QuestionHolder(layoutInflater, parent);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull QuestionHolder questionHolder, int position) {
+            if (position == 0) { position = 1; }
+            Question q = mQuestions.get(position);
+            questionHolder.bind(q);
+        }
+
+        @Override
+        public int getItemCount() {
+            return mQuestions.size();
+        }
     }
 
     /**
@@ -63,15 +121,27 @@ public class QuestionListFrag extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        View view = inflater.inflate(R.layout.fragment_question_list, container, false);
+
+        rView = (RecyclerView) view.findViewById(R.id.recyclerView);
+        rView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        updateUI();
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_question_list, container, false);
+        return view;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
+    private void updateUI() {
+        QuestionListFactory qlFact = QuestionListFactory.get(getActivity());
+        List<Question> questions = qlFact.getQuestionList();
+        qAdapter = new QuestionAdapter(questions);
+        rView.setAdapter(qAdapter);
+    }
+
+    interface OnFragmentInteractionListener {
+        void onQuestionPressed(int questionId);
     }
 
     @Override
@@ -101,8 +171,5 @@ public class QuestionListFrag extends Fragment {
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
+
 }
