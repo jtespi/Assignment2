@@ -1,7 +1,6 @@
 package com.techexchange.mobileapps.assignment2;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -12,8 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -53,7 +50,7 @@ public class QuestionListFrag extends Fragment {
         private TextView mQuestionTxt;
 
         public QuestionHolder(LayoutInflater inflater, ViewGroup parent) {
-            super(inflater.inflate(R.layout.list_item_quesion, parent, false));
+            super(inflater.inflate(R.layout.list_item_question, parent, false));
             itemView.setOnClickListener(this);
 
             mQuestionNumberTxt = (TextView) itemView.findViewById(R.id.question_num);
