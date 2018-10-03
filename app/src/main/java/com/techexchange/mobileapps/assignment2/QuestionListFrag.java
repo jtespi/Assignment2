@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
+
+import static android.content.ContentValues.TAG;
 
 
 /**
@@ -29,6 +32,8 @@ public class QuestionListFrag extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+
+    private static final String TAG = QuestionListFrag.class.getSimpleName();
 
     private RecyclerView rView;
     private QuestionAdapter qAdapter;
@@ -71,10 +76,13 @@ public class QuestionListFrag extends Fragment {
 
         @Override
         public void onClick(View view) {
+            int questionNum = mQuestion.getqNumber();
             Toast.makeText(getActivity(),
-                    "Question #" + mQuestion.getqNumber() + " clicked!", Toast.LENGTH_SHORT)
+                    "Question #" + questionNum + " clicked!", Toast.LENGTH_SHORT)
                     .show();
             mQuestion.setChosenAns("NotNull");
+            Log.d(TAG, "Calling mListener for question number" + questionNum);
+            mListener.onQuestionPressed(questionNum);
         }
     }
 
