@@ -1,7 +1,11 @@
 <resources>
     <string name="app_name">Assignment 2</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="q_num_placeholder">Question #nn</string>
     <string name="q_txt_placeholder">{City} is the capital of which country?</string>
+
+    <string name="radio1_placeholder">Option 1</string>
+    <string name="radio2_placeholder">Option 2</string>
+    <string name="radio3_placeholder">Option 3</string>
+    <string name="radio4_placeholder">Option 4</string>
 </resources>
