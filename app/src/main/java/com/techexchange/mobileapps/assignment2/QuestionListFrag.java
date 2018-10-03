@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,6 +49,7 @@ public class QuestionListFrag extends Fragment {
 
         private TextView mQuestionNumberTxt;
         private TextView mQuestionTxt;
+        private LinearLayout mQuestionLayout;
 
         public QuestionHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.list_item_question, parent, false));
@@ -55,12 +57,16 @@ public class QuestionListFrag extends Fragment {
 
             mQuestionNumberTxt = (TextView) itemView.findViewById(R.id.question_num);
             mQuestionTxt = (TextView) itemView.findViewById(R.id.question_txt);
+            mQuestionLayout = (LinearLayout) itemView.findViewById(R.id.question_layout);
         }
 
         public void bind( Question q ) {
             mQuestion = q;
             mQuestionNumberTxt.setText("Question #" + q.getqNumber());
             mQuestionTxt.setText(q.getQuestion());
+
+            if ( mQuestion.getChosenAns().equals("None"))
+                mQuestionLayout.setBackgroundResource(R.drawable.rect_blue);
         }
 
         @Override
@@ -68,6 +74,7 @@ public class QuestionListFrag extends Fragment {
             Toast.makeText(getActivity(),
                     "Question #" + mQuestion.getqNumber() + " clicked!", Toast.LENGTH_SHORT)
                     .show();
+            mQuestion.setChosenAns("NotNull");
         }
     }
 

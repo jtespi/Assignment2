@@ -1,7 +1,8 @@
 package com.techexchange.mobileapps.assignment2;
 
 public class Question {
-    private final String cityName, chosenAns, corAns;
+    private final String cityName, corAns;
+    private String chosenAns;
     private String[] wrongAnswers;
     private int qNumber;
 
@@ -27,6 +28,10 @@ public class Question {
 
     public void setWrongAnswers(String[] wrongAns ) {
         this.wrongAnswers = wrongAns;
+    }
+
+    public void setChosenAns(String s) {
+        this.chosenAns = s;
     }
 
     public String getCityName() {
