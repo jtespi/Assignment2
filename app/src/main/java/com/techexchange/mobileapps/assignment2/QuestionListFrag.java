@@ -30,6 +30,7 @@ public class QuestionListFrag extends Fragment {
     private static final String TAG = QuestionListFrag.class.getSimpleName();
 
     private RecyclerView rView;
+    private Button emailButton;
     private QuestionAdapter qAdapter;
 
     private boolean quizFinalized;
@@ -62,10 +63,19 @@ public class QuestionListFrag extends Fragment {
             mQuestionNumberTxt.setText("Question #" + q.getqNumber());
             mQuestionTxt.setText(q.getQuestion());
 
-            if ( mQuestion.getChosenAns().equals("None"))
+            String chosenAnswer = mQuestion.getChosenAns();
+            String correctAnswer = mQuestion.getCorAns();
+
+            if ( !(quizFinalized) && chosenAnswer.equals("None"))
                 mQuestionLayout.setBackgroundResource(R.drawable.rect1);
-            else {
+            else if ( !(quizFinalized) && !(chosenAnswer.equals("None"))){
                 mQuestionLayout.setBackgroundResource(R.drawable.rect_blue);
+            }
+            else if ( quizFinalized && chosenAnswer.equals(correctAnswer)) {
+                mQuestionLayout.setBackgroundResource(R.drawable.rect_green);
+            }
+            else {
+                mQuestionLayout.setBackgroundResource(R.drawable.rect_red);
             }
         }
 
@@ -73,7 +83,8 @@ public class QuestionListFrag extends Fragment {
         public void onClick(View view) {
             int questionNum = mQuestion.getqNumber();
 
-            //mQuestion.setChosenAns("NotNull");
+            if (quizFinalized) return;
+
             Log.d(TAG, "Calling mListener for question number" + questionNum);
             mListener.onQuestionPressed(questionNum);
         }
@@ -137,10 +148,17 @@ public class QuestionListFrag extends Fragment {
         rView = (RecyclerView) view.findViewById(R.id.recyclerView);
         rView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        Button emailButton = view.findViewById(R.id.btn_email);
+        emailButton = view.findViewById(R.id.btn_email);
         Button mainSubmitButton = view.findViewById(R.id.btn_submit);
 
         if (!quizFinalized) emailButton.setEnabled(false);
+
+        mainSubmitButton.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onSubmitButtonPressed( );
+            }
+        });
 
         updateUI();
 
@@ -153,6 +171,12 @@ public class QuestionListFrag extends Fragment {
         List<Question> questions = qlFact.getQuestionList();
         qAdapter = new QuestionAdapter(questions);
         rView.setAdapter(qAdapter);
+    }
+
+    private  void onSubmitButtonPressed() {
+        Log.d(TAG, "Submit button was pressed!");
+        quizFinalized = true;
+        emailButton.setEnabled(true);
     }
 
     interface OnFragmentInteractionListener {
