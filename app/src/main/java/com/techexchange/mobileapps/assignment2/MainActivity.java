@@ -27,8 +27,6 @@ public class MainActivity extends AppCompatActivity implements
 
         QuestionListFactory.generateQuestionList( this.getApplicationContext());
         QuestionListFactory.populateWrongAnswers();
-
-        Toast.makeText(this, "QuestionList generated successful", Toast.LENGTH_SHORT).show();
     }
 
     public void onQuestionPressed(int questionId){

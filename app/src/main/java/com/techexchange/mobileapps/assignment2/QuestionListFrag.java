@@ -80,10 +80,8 @@ public class QuestionListFrag extends Fragment {
         @Override
         public void onClick(View view) {
             int questionNum = mQuestion.getqNumber();
-            Toast.makeText(getActivity(),
-                    "Question #" + questionNum + " clicked!", Toast.LENGTH_SHORT)
-                    .show();
-            mQuestion.setChosenAns("NotNull");
+
+            //mQuestion.setChosenAns("NotNull");
             Log.d(TAG, "Calling mListener for question number" + questionNum);
             mListener.onQuestionPressed(questionNum);
         }

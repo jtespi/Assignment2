@@ -3,13 +3,16 @@ package com.techexchange.mobileapps.assignment2;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
@@ -33,6 +36,8 @@ public class OneQuestionFrag extends Fragment {
     private int qNum;
 
     List<Question> questions;
+    Question currentQuestion;
+    RadioGroup rGroup;
 
     private OnFragmentInteractionListener mListener;
 
@@ -71,14 +76,22 @@ public class OneQuestionFrag extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_one_question, container, false);
 
-        Button submitButton = view.findViewById(R.id.btn_submit);
+        Button submitButton = view.findViewById(R.id.submitButton);
         TextView questionTxt = view.findViewById(R.id.oneQuestionTxt);
         RadioButton rb_one = view.findViewById(R.id.radio1);
         RadioButton rb_two = view.findViewById(R.id.radio2);
         RadioButton rb_three = view.findViewById(R.id.radio3);
         RadioButton rb_four = view.findViewById(R.id.radio4);
+        rGroup = view.findViewById(R.id.radio_group);
 
-        Question currentQuestion = questions.get(qNum-1);
+        submitButton.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onSubmitPressed( qNum );
+            }
+        });
+
+        currentQuestion = questions.get(qNum-1);
 
         questionTxt.setText(currentQuestion.getQuestion());
 
@@ -101,12 +114,38 @@ public class OneQuestionFrag extends Fragment {
         rb_three.setText(rButtonText[2]);
         rb_four.setText(rButtonText[3]);
 
+        String curQChosenAns = currentQuestion.getChosenAns();
+        int foundChosenIndex = -1;
+        if ( !curQChosenAns.equals("None") ) {
+            for ( int i = 0; i < 4; i++ ) {
+                if( rButtonText[i].equals(curQChosenAns) )
+                    foundChosenIndex = i;
+            }
+            if (foundChosenIndex == 0) rb_one.setChecked(true);
+            if (foundChosenIndex == 1) rb_two.setChecked(true);
+            if (foundChosenIndex == 2) rb_three.setChecked(true);
+            if (foundChosenIndex == 3) rb_four.setChecked(true);
+        }
+
         // Inflate the layout for this fragment
         return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onSubmitPressed(int qNum) {
+
+        int checkedRadioButtonID;
+
+        checkedRadioButtonID = rGroup.getCheckedRadioButtonId();
+        Toast.makeText(this.getContext(), "checkedRadioButtonID = " + checkedRadioButtonID, Toast.LENGTH_SHORT).show();
+        if (checkedRadioButtonID == -1) return;
+
+        RadioButton selectedRB = getView().findViewById(checkedRadioButtonID);
+        String rbText = (String) selectedRB.getText();
+        Toast.makeText(this.getContext(), "rbText = " + rbText, Toast.LENGTH_SHORT).show();
+
+        currentQuestion.setChosenAns(rbText);
+
         if (mListener != null) {
             mListener.onQuestionAnswered( qNum );
         }
