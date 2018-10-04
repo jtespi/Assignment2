@@ -71,7 +71,10 @@ public class QuestionListFrag extends Fragment {
             mQuestionTxt.setText(q.getQuestion());
 
             if ( mQuestion.getChosenAns().equals("None"))
+                mQuestionLayout.setBackgroundResource(R.drawable.rect1);
+            else {
                 mQuestionLayout.setBackgroundResource(R.drawable.rect_blue);
+            }
         }
 
         @Override

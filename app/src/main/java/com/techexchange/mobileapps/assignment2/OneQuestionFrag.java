@@ -13,6 +13,8 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
+import java.util.List;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,12 +27,12 @@ import org.w3c.dom.Text;
 public class OneQuestionFrag extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private static final String  ARG_QNUM = "qNum";
 
     // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private int qNum;
+
+    List<Question> questions;
 
     private OnFragmentInteractionListener mListener;
 
@@ -42,16 +44,14 @@ public class OneQuestionFrag extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
+     * @param param1 The question number.
      * @return A new instance of fragment OneQuestionFrag.
      */
     // TODO: Rename and change types and number of parameters
-    public static OneQuestionFrag newInstance(String param1, String param2) {
+    public static OneQuestionFrag newInstance(int param1) {
         OneQuestionFrag fragment = new OneQuestionFrag();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putInt(ARG_QNUM, param1);
         fragment.setArguments(args);
         return fragment;
     }
@@ -60,15 +60,16 @@ public class OneQuestionFrag extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            qNum = getArguments().getInt(ARG_QNUM);
         }
+        QuestionListFactory qlFact = QuestionListFactory.get(getActivity());
+        questions = qlFact.getQuestionList();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_question_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_one_question, container, false);
 
         Button submitButton = view.findViewById(R.id.btn_submit);
         TextView questionTxt = view.findViewById(R.id.oneQuestionTxt);
@@ -77,16 +78,37 @@ public class OneQuestionFrag extends Fragment {
         RadioButton rb_three = view.findViewById(R.id.radio3);
         RadioButton rb_four = view.findViewById(R.id.radio4);
 
+        Question currentQuestion = questions.get(qNum-1);
 
+        questionTxt.setText(currentQuestion.getQuestion());
+
+        String[] rButtonText = new String[4];
+        String[] wrongAnswers = currentQuestion.getWrongAnswers();
+
+        // get a random start index from 0 to 3
+        int index = (int)(Math.random() * 4);
+        int indexB = 0;
+        rButtonText[index] = currentQuestion.getCorAns();
+        index++;
+        for ( int count = 1; count <= 3; count++ ) {
+            if (index > 3) index = 0;
+            rButtonText[index] = wrongAnswers[indexB];
+            index++; indexB++;
+        }
+
+        rb_one.setText(rButtonText[0]);
+        rb_two.setText(rButtonText[1]);
+        rb_three.setText(rButtonText[2]);
+        rb_four.setText(rButtonText[3]);
 
         // Inflate the layout for this fragment
         return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
+    public void onSubmitPressed(int qNum) {
         if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
+            mListener.onQuestionAnswered( qNum );
         }
     }
 
@@ -119,6 +141,6 @@ public class OneQuestionFrag extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+        void onQuestionAnswered( int questionNum );
     }
 }
