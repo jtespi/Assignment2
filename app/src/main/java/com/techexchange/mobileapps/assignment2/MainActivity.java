@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity implements
         fm = getSupportFragmentManager();
         Fragment frag = fm.findFragmentById(R.id.fragment_container);
         if (frag == null) {
-            frag = new QuestionListFrag();
+            frag = QuestionListFrag.newInstance(false);
             fm.beginTransaction().add(R.id.fragment_container, frag).commit();
         }
 
