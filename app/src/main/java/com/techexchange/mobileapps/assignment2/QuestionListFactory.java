@@ -95,7 +95,7 @@ public class QuestionListFactory {
             finalScore += points;
         }
 
-        String summaryLine = "Summary: " + finalScore + " out of 248\n";
+        String summaryLine = "Summary: " + finalScore + " out of 248\n\n";
 
         return summaryLine + sb.toString();
 

@@ -190,7 +190,8 @@ public class QuestionListFrag extends Fragment {
     }
 
     private void onEmailButtonPressed() {
-        String scoreReport = QuestionListFactory.generateScoreReport();
+        QuestionListFactory qlFact = QuestionListFactory.get(getActivity());
+        String scoreReport = qlFact.generateScoreReport();
         Context context = this.getContext();
 
         Intent intent = new Intent(Intent.ACTION_SENDTO);
@@ -201,7 +202,7 @@ public class QuestionListFrag extends Fragment {
             startActivity(intent);
         } else {
             Toast.makeText(context,
-                    "The activity could not be resolved.", Toast.LENGTH_SHORT).show();
+                    "ERROR: The activity could not be resolved.", Toast.LENGTH_SHORT).show();
         }
     }
 

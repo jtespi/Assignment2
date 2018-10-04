@@ -137,12 +137,10 @@ public class OneQuestionFrag extends Fragment {
         int checkedRadioButtonID;
 
         checkedRadioButtonID = rGroup.getCheckedRadioButtonId();
-        Toast.makeText(this.getContext(), "checkedRadioButtonID = " + checkedRadioButtonID, Toast.LENGTH_SHORT).show();
         if (checkedRadioButtonID == -1) return;
 
         RadioButton selectedRB = getView().findViewById(checkedRadioButtonID);
         String rbText = (String) selectedRB.getText();
-        Toast.makeText(this.getContext(), "rbText = " + rbText, Toast.LENGTH_SHORT).show();
 
         currentQuestion.setChosenAns(rbText);
 
