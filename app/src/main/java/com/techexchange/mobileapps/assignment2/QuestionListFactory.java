@@ -22,7 +22,6 @@ public class QuestionListFactory {
     }
 
     private QuestionListFactory( Context context ) {
-        //questionList = new ArrayList<>();
         questionList = questionList;
     }
 

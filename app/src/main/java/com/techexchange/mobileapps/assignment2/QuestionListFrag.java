@@ -187,6 +187,8 @@ public class QuestionListFrag extends Fragment {
         Log.d(TAG, "Submit button was pressed!");
         quizFinalized = true;
         emailButton.setEnabled(true);
+
+        updateUI();
     }
 
     private void onEmailButtonPressed() {
