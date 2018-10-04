@@ -75,4 +75,29 @@ public class QuestionListFactory {
             questionList.get(index).setWrongAnswers( otherCountries );
         }
     }
+
+    public static String generateScoreReport() {
+        StringBuilder sb = new StringBuilder();
+        int finalScore = 0;
+
+        sb.append("Here is the complete score report:\n\n");
+        for ( int index = 0; index < questionList.size(); index++ ) {
+            Question curQ = questionList.get(index);
+            int points = 0;
+            if ( curQ.getChosenAns().equals(curQ.getCorAns())) points = 1;
+
+            sb.append("Question: ");
+            sb.append(curQ.getQuestion()).append("\n");
+            sb.append("Your answer: ").append(curQ.getChosenAns()).append("\n");
+            sb.append("Correct answer: ").append(curQ.getCorAns()).append("\n");
+            sb.append("Points: ").append( points ).append("\n\n");
+
+            finalScore += points;
+        }
+
+        String summaryLine = "Summary: " + finalScore + " out of 248\n";
+
+        return summaryLine + sb.toString();
+
+    }
 }

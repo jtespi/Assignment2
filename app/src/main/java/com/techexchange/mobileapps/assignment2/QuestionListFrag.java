@@ -1,6 +1,8 @@
 package com.techexchange.mobileapps.assignment2;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -13,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -160,6 +163,13 @@ public class QuestionListFrag extends Fragment {
             }
         });
 
+        emailButton.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onEmailButtonPressed( );
+            }
+        });
+
         updateUI();
 
         // Inflate the layout for this fragment
@@ -173,10 +183,26 @@ public class QuestionListFrag extends Fragment {
         rView.setAdapter(qAdapter);
     }
 
-    private  void onSubmitButtonPressed() {
+    private void onSubmitButtonPressed() {
         Log.d(TAG, "Submit button was pressed!");
         quizFinalized = true;
         emailButton.setEnabled(true);
+    }
+
+    private void onEmailButtonPressed() {
+        String scoreReport = QuestionListFactory.generateScoreReport();
+        Context context = this.getContext();
+
+        Intent intent = new Intent(Intent.ACTION_SENDTO);
+        intent.setData(Uri.parse("mailto:")); // Only email apps should handle this
+        intent.putExtra(Intent.EXTRA_SUBJECT, "Quiz Score Report");
+        intent.putExtra(Intent.EXTRA_TEXT, scoreReport); // Enter a string for the email body
+        if (intent.resolveActivity(context.getPackageManager()) != null) {
+            startActivity(intent);
+        } else {
+            Toast.makeText(context,
+                    "The activity could not be resolved.", Toast.LENGTH_SHORT).show();
+        }
     }
 
     interface OnFragmentInteractionListener {
